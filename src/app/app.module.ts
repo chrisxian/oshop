@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { AngularFireModule } from 'angularfire2';
-import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+
 
 import { AppComponent } from './app.component';
 import { environment } from 'src/environments/environment';
@@ -13,7 +14,7 @@ import { environment } from 'src/environments/environment';
   imports: [
     BrowserModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFireDatabaseModule
+    AngularFirestoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]
