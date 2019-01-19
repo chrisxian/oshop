@@ -15,6 +15,10 @@ import { map } from 'rxjs/operators';
 export class AppComponent  {
   title = 'app';
   tasks: Observable<any[]>;
+  myTask: string;
+  editMode: boolean = false;
+  taskToEdit: any = {};
+
   constructor(private db: AngularFirestore, private taskService: AppService) {}
 
   ngOnInit(){
@@ -29,4 +33,38 @@ export class AppComponent  {
       })
     }));
   }
+
+  edit(task){
+    console.log(task);
+    this.taskToEdit = task;
+    this.editMode = true;
+    this.myTask = task.description;
+  }
+
+  saveTask(){
+    if(this.myTask!==null){
+      let task = {
+        description: this.myTask
+      };
+    
+      if(!this.editMode){
+        console.log(task);
+        this.taskService.addTask(task);
+      }else{
+        let taskId = this.taskToEdit.id;
+        this.taskService.updateTask(taskId, task);
+      }
+      this.editMode = false;
+      this.myTask = ""
+    }
+  }
+
+  deleteTask(task) {
+
+    //Get the task id 
+    let taskId = task.id; 
+    //delete the task 
+    this.taskService.deleteTask(taskId);
+  }
+
 }
