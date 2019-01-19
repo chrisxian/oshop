@@ -1,5 +1,7 @@
-<ul>
-  <li class="text" *ngFor="let item of items | async">
-    {{item.name}}
-  </li>
-</ul>
+<tr *ngFor="let task of tasks | async; let i = index" [attr.data-index]="i">
+
+  <td>{{i + 1}}</td>
+
+  <td>{{task.description}}</td>
+
+</tr>
