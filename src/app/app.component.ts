@@ -18,15 +18,15 @@ export class AppComponent  {
   constructor(private db: AngularFirestore, private taskService: AppService) {}
 
   ngOnInit(){
-    this.tasks = this.db.collection(config.collection_endpoint).valueChanges();
-    // .snapshotChanges()
-    // .pipe(
-    //       map(actions=>{
-    //         return actions.map(a=>{
-    //         const data = a.payload.doc.data() as Task;
-    //         const id = a.payload.doc.id;
-    //         return {id, data};
-    //   })
-    // }));
+    this.tasks = this.db.collection(config.collection_endpoint)
+    .snapshotChanges()
+    .pipe(
+          map(actions=>{
+            return actions.map(a=>{
+            const data = a.payload.doc.data() as Task;
+            const id = a.payload.doc.id;
+            return {id, data};
+      })
+    }));
   }
 }
