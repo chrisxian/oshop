@@ -1,11 +1,23 @@
-<div class="container">
-    <tr *ngFor="let task of tasks | async; let i = index" [attr.data-index]="i">
-
-        <td>{{i + 1}}</td>
-      
-        <td>{{task.id}}</td>
-      
-        <td>{{task.data.description}}</td>
-      
+<div class="col-md-6">
+    <table class="table table-hover">
+      <tr>
+        <th>#</th>
+        <th>Task</th>
+        <th></th>
       </tr>
+      <tr *ngFor="let task of tasks | async; let i = index" [attr.data-index]="i">
+        <td>{{i + 1}}</td>
+        <td>{{task.data.description}}</td>
+        <td>
+          <button class="btn btn-success btn-sm" (click)="edit(task)">
+            edit
+          </button>
+
+          <button class="btn btn-danger btn-sm" (click)="deleteTask(task)">
+            remove
+          </button>
+        </td>
+      </tr>
+    </table>
 </div>
+
