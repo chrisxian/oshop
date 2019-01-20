@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+
 // import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFirestore } from "angularfire2/firestore";
 import { Observable } from 'rxjs';
@@ -57,6 +58,11 @@ export class AppComponent  {
       this.editMode = false;
       this.myTask = ""
     }
+  }
+
+  log(x){
+    console.log("hi, i'm printing x");
+    console.log(x);
   }
 
   deleteTask(task) {
