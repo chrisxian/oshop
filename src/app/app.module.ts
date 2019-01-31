@@ -7,12 +7,11 @@ import { FormsModule } from '@angular/forms'; // <== add the imports!
 
 import { AppComponent } from './app.component';
 import { environment } from 'src/environments/environment';
-import { NavbarComponent } from './navbar/navbar.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent,    
   ],
   imports: [
     BrowserModule,
