@@ -1,7 +1,7 @@
-<form>
+<form #f="ngForm" (ngSubmit)="save(f.value)">
   <div class="form-group">
     <label for="title">Title</label>
-    <input id="title" type="text" class="form-control">
+    <input ngModel name="title" id="title" type="text" class="form-control">
   </div>
 
   <div class="form-group">
@@ -10,22 +10,21 @@
       <div class="input-group-prepend">
         <span class="input-group-text">$</span>
       </div>
-      <input type="number" id="price" class="form-control" aria-label="Amount (to the nearest dollar)">   
+      <input ngModel name="price" type="number" id="price" class="form-control" aria-label="Amount (to the nearest dollar)">   
      </div>
   </div>  
    
   <div class="form-group">
     <label for="categroy">Categroy</label>
-    <select id="categroy" class="form-control">
-      <option value="abc">1</option>
-      <option *ngFor="let c of categories$ | async" [value]="c.id">
+    <select ngModel name="category" id="categroy" class="form-control">
+       <option *ngFor="let c of categories$ | async" [value]="c.id">
         {{c.name}}
       </option>
     </select>
   </div>
   <div class="form-group">
     <label for="imageUrl">Image Url</label >
-    <input id="imageUrl" Type="text" class="form-control">
+    <input  ngModel name="imageUrl" id="imageUrl" Type="text" class="form-control">
   </div>
 
   <button class="btn btn-primary">Save</button>
