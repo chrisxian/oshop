@@ -17,7 +17,10 @@
   <div class="form-group">
     <label for="categroy">Categroy</label>
     <select id="categroy" class="form-control">
-      <option value=""></option>
+      <option value="abc">1</option>
+      <option *ngFor="let c of categories$ | async" [value]="c.id">
+        {{c.name}}
+      </option>
     </select>
   </div>
   <div class="form-group">
