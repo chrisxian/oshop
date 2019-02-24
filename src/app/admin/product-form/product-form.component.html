@@ -35,9 +35,11 @@
 
   <div class="form-group">
     <label for="imageUrl">Image Url</label >
-    <input #imageUrl="ngModel" ngModel name="imageUrl" id="imageUrl" Type="text" class="form-control" required>
+    <input #imageUrl="ngModel" ngModel name="imageUrl" id="imageUrl" Type="text" class="form-control" required url>
     <div class="alert alert-danger" *ngIf="imageUrl.touched && imageUrl.invalid">
-      image url is required.
+      
+      <div *ngIf="imageUrl.errors.required">image url is required.</div>
+      <div *ngIf="imageUrl.errors.url">please enter a valid url.</div>
     </div>
   </div>
 
