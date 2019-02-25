@@ -14,4 +14,8 @@ export class ProductService {
   create(product){
     this.products.add(product);
   }
+
+  getAll(){
+    return this.products.valueChanges();
+  }
 }
