@@ -18,4 +18,8 @@ export class ProductService {
   getAll(){
     return this.products.valueChanges();
   }
+
+  get(productId){
+    return this.products.doc(`products/${productId}`).valueChanges();
+  }
 }
