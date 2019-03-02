@@ -14,7 +14,7 @@ import { take } from 'rxjs/operators';
 export class ProductFormComponent implements OnInit {
 
   categories$: Observable<Category[]>;
-  product;
+  product = {};
 
   constructor(
     private router: Router,
