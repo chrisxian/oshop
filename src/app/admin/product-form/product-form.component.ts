@@ -15,6 +15,7 @@ export class ProductFormComponent implements OnInit {
 
   categories$: Observable<Category[]>;
   product = {};
+  id;
 
   constructor(
     private router: Router,
@@ -23,9 +24,9 @@ export class ProductFormComponent implements OnInit {
     private productService: ProductService) 
     { 
       this.categories$ = categoryService.getCategories();
-      let id = this.route.snapshot.paramMap.get('id');
-      if(id){
-        this.product =  this.productService.get(id).pipe(take(1));
+      this.id = this.route.snapshot.paramMap.get('id');
+      if(this.id){
+        this.product =  this.productService.get(this.id).pipe(take(1));
       }
   }
 
@@ -37,8 +38,11 @@ export class ProductFormComponent implements OnInit {
 
   save(product){
     // console.log(product);
-    this.productService.create(product);
-    this.router.navigate(['/admin/products']);
+    if(this.id){
+      this.productService.update(this.id, product);
+    }else{
+      this.productService.create(product);      
+    }
+    this.router.navigate(['/admin/products']);   
   }
-
 }

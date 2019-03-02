@@ -22,4 +22,10 @@ export class ProductService {
   get(productId){
     return this.products.doc(`products/${productId}`).valueChanges();
   }
+
+  update(productId, product){
+    //id or $key cannot be in a object that passed to firebase update method, otherwise runtime exception!
+    return this.products.doc(`products/${productId}`).update(product);
+  }
+
 }
