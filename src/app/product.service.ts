@@ -28,4 +28,9 @@ export class ProductService {
     return this.products.doc(`products/${productId}`).update(product);
   }
 
+  delete(productId){
+    return this.products.doc(`products/${productId}`).delete();
+    //return a Promise.
+  }
+
 }

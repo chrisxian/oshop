@@ -45,4 +45,15 @@ export class ProductFormComponent implements OnInit {
     }
     this.router.navigate(['/admin/products']);   
   }
+
+  delete(){
+    //this simple confirm popup will be later replaced by bootstrap popup.
+    if(!confirm("Are you sure you want to delete this product ?"))
+      return;
+    
+    this.productService.delete(this.id);
+    //afterwards, redirect to product list.
+    this.router.navigate(['/admin/products']);  
+    
+  }
 }
