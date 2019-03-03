@@ -9,11 +9,12 @@ import { Subscription } from 'rxjs';
 })
 export class AdminProductsComponent implements OnInit, OnDestroy {
   products: any[];
+  filteredProducts: any[]; //use this to bind to the view.
   subscription: Subscription;
 
   constructor(private productService: ProductService) {
     this.subscription = 
-      this.productService.getAll().subscribe(products => this.products = products)
+      this.productService.getAll().subscribe(products => this.filteredProducts = this.products = products)
    }
 
   ngOnInit() {
@@ -24,7 +25,8 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
   }
 
   filter(query: string){
-    console.log(query);
+    this.filteredProducts = (query) ?
+      this.products.filter(p=>p.title.toLowerCase().includes(query.toLowerCase())):
+      this.products;
   }
-
 }
