@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ProductService } from 'src/app/product.service';
 import { Subscription } from 'rxjs';
+import { Product } from 'src/app/model/product';
 
 @Component({
   selector: 'app-admin-products',
@@ -8,13 +9,13 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./admin-products.component.css']
 })
 export class AdminProductsComponent implements OnInit, OnDestroy {
-  products: any[];
-  filteredProducts: any[]; //use this to bind to the view.
+  products: Product[];
+  filteredProducts: Product[]; //use this to bind to the view.
   subscription: Subscription;
 
   constructor(private productService: ProductService) {
     this.subscription = 
-      this.productService.getAll().subscribe(products => this.filteredProducts = this.products = products)
+      this.productService.getAll().subscribe(products => this.filteredProducts = this.products =  products)
    }
 
   ngOnInit() {
