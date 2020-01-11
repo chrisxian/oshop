@@ -9,7 +9,7 @@ import { Product } from 'src/app/model/product';
   styleUrls: ['./admin-products.component.css']
 })
 export class AdminProductsComponent implements OnInit, OnDestroy {
-  products: Product[];
+  products: Product[];//all products from the database.
   filteredProducts: Product[]; //use this to bind to the view.
   subscription: Subscription;
 
