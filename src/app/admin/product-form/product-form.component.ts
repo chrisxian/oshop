@@ -21,39 +21,54 @@ export class ProductFormComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private categoryService: CategoryService,
-    private productService: ProductService) 
-    { 
-      this.categories$ = categoryService.getCategories();
-      this.id = this.route.snapshot.paramMap.get('id');
-      if(this.id){
-        this.product =  this.productService.get(this.id).pipe(take(1));
-      }
+    private productService: ProductService) {
+    this.categories$ = categoryService.getCategories();
+    this.id = this.route.snapshot.paramMap.get('id');
+    if (this.id) {
+      // this.product =  this.productService.get(this.id).pipe(take(1));
+      this.productService.get(this.id).subscribe(
+        (p) => {
+          this.product = p;
+          console.log(p);
+        }
+      );
+      /*
+      // oops ... subscribe() is missing so nothing happens,
+      // the request only happen else a observable is subscribed!!
+      // https://angular.io/guide/#http
+      */
+    }
   }
 
   ngOnInit() {
     this.categories$.subscribe(
-      (next)=>{console.log(next)}
+      (next) => { console.log(next) }
     );
   }
 
-  save(product){
+  save(product: any) {
     // console.log(product);
-    if(this.id){
-      this.productService.update(this.id, product);
-    }else{
-      this.productService.create(product);      
+    let navigateAfterSave = (_) => {
+      this.router.navigate(['/admin/products']);
     }
-    this.router.navigate(['/admin/products']);   
+    if (this.id) {
+      product.id = this.id;//product is from ngForm, where id is not bound, has to populate with id property.
+      //https://stackoverflow.com/questions/20258994/bind-hidden-inputs-to-model-in-angular
+      this.productService.update(this.id, product).subscribe(navigateAfterSave);
+    } else {
+      this.productService.create(product).subscribe(navigateAfterSave);
+    }
+    // this.router.navigate(['/admin/products']);   
   }
 
-  delete(){
+  delete() {
     //this simple confirm popup will be later replaced by bootstrap popup.
-    if(!confirm("Are you sure you want to delete this product ?"))
+    if (!confirm("Are you sure you want to delete this product ?"))
       return;
-    
+
     this.productService.delete(this.id);
     //afterwards, redirect to product list.
-    this.router.navigate(['/admin/products']);  
-    
+    this.router.navigate(['/admin/products']);
+
   }
 }
