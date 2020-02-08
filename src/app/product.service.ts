@@ -4,6 +4,7 @@ import { Product } from './model/product';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
+import { HandleError, HttpErrorHandler } from './http-error-handler.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,11 @@ export class ProductService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  constructor(private http: HttpClient) { }
+  private handleError: HandleError;
+
+  constructor(private http: HttpClient, httpErrorHandler: HttpErrorHandler) {
+    this.handleError = httpErrorHandler.createHandleError('HeroesService');
+   }
 
   getAll(): Observable<Product[]> {
     return this.http.get<Product[]>(this.productsURL)
@@ -43,7 +48,7 @@ export class ProductService {
     return this.http.post<Product>(this.productsURL, product, this.httpOptions)
       .pipe(
         tap((newProduct: Product) => console.log(`added hero w/ id=${newProduct.title}`)),
-        catchError(this.handleError<Product>('create'))
+        catchError(this.handleError<Product>('create', product))
       );
   }
 
@@ -52,7 +57,7 @@ export class ProductService {
     return this.http.put(url, product, this.httpOptions)
       .pipe(
         tap(_ => console.log(`updated product id=${product.id}`)),
-        catchError(this.handleError<any>('updateProduct'))
+        catchError(this.handleError<any>('updateProduct', product))
       );
   }
 
@@ -65,25 +70,4 @@ export class ProductService {
       catchError(this.handleError<Product>('deleteProduct'))
     );
   }
-
-  /**
- * Handle Http operation that failed.
- * Let the app continue.
- * @param operation - name of the operation that failed
- * @param result - optional value to return as the observable result
- */
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-
-      // TODO: better job of transforming error for user consumption
-      // this.log(`${operation} failed: ${error.message}`);
-
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
-  }
-
 }

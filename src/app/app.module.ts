@@ -24,6 +24,7 @@ import { LoginComponent } from './login/login.component';
 import { ProductFormComponent } from './admin/product-form/product-form.component';
 import { CategoryService } from './category.service';
 import { ProductService } from './product.service';
+import { HttpErrorHandler }     from './http-error-handler.service';
 
 
 @NgModule({
@@ -66,7 +67,8 @@ import { ProductService } from './product.service';
   ],
   providers: [
     CategoryService,
-    ProductService
+    ProductService,
+    HttpErrorHandler
   ],
   bootstrap: [AppComponent]
 })
