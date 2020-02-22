@@ -18,7 +18,7 @@ export class CategoryService {
     this.handleError = httpErrorHandler.createHandleError('HeroesService');
    }
 
-  getCategories(): Observable<Category[]> {
+  getAll(): Observable<Category[]> {
     return this.http.get<Category[]>(this.categoriesURL)
       .pipe(
         tap(_ => console.log('fetched categories')),
