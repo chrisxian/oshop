@@ -9,14 +9,14 @@ import { Product } from 'src/app/model/product';
   styleUrls: ['./admin-products.component.css']
 })
 export class AdminProductsComponent implements OnInit, OnDestroy {
-  products: Product[];//all products from the database.
+  products: Product[]; //all products from the database.
   filteredProducts: Product[]; //use this to bind to the view.
   subscription: Subscription;
 
   constructor(private productService: ProductService) {
-    this.subscription = 
-      this.productService.getAll().subscribe(products => this.filteredProducts = this.products =  products)
-   }
+    this.subscription =
+      this.productService.getAll().subscribe(products => this.filteredProducts = this.products = products);
+  }
 
   ngOnInit() {
   }
@@ -25,9 +25,9 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  filter(query: string){
+  filter(query: string) {
     this.filteredProducts = (query) ?
-      this.products.filter(p=>p.title.toLowerCase().includes(query.toLowerCase())):
+      this.products.filter(p => p.title.toLowerCase().includes(query.toLowerCase())) :
       this.products;
   }
 }

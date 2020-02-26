@@ -35,7 +35,7 @@ export class ProductsComponent implements OnInit {
       });
 
       this.categories$ = this.categoryService.getAll();
-      //no need to subscribe, the asycn pipe '|' also can unwrap the observable.
+      // no need to subscribe, the asycn pipe '|' also can unwrap the observable.
   }
 
   ngOnInit() {

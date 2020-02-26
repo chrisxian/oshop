@@ -42,33 +42,34 @@ export class ProductFormComponent implements OnInit {
 
   ngOnInit() {
     this.categories$.subscribe(
-      (next) => { console.log(next) }
+      (next) => { console.log(next); }
     );
   }
 
   save(product: any) {
     // console.log(product);
-    let navigateAfterSave = (_) => {
+    const navigateAfterSave = (_) => {
       this.router.navigate(['/admin/products']);
-    }
+    };
     if (this.id) {
-      product.id = this.id;//product is from ngForm, where id is not bound, has to populate with id property.
-      //https://stackoverflow.com/questions/20258994/bind-hidden-inputs-to-model-in-angular
+      product.id = this.id; //product is from ngForm, where id is not bound, has to populate with id property.
+      // https://stackoverflow.com/questions/20258994/bind-hidden-inputs-to-model-in-angular
       this.productService.update(this.id, product).subscribe(navigateAfterSave);
     } else {
       this.productService.create(product).subscribe(navigateAfterSave);
     }
-    // this.router.navigate(['/admin/products']);   
+    // this.router.navigate(['/admin/products']);    
   }
 
   delete() {
-    //this simple confirm popup will be later replaced by bootstrap popup.
-    if (!confirm("Are you sure you want to delete this product ?"))
+    // this simple confirm popup will be later replaced by bootstrap popup.
+    if (!confirm('Are you sure you want to delete this product ?')) {
       return;
+    }
 
     this.productService.delete(this.id).subscribe(
-      (_)=> this.router.navigate(['/admin/products'])  //afterwards, redirect to product list.
+      (_) => this.router.navigate(['/admin/products'])  // afterwards, redirect to product list.
     );
-    //again, no subscription, no request is made!!
+    // again, no subscription, no request is made!!
   }
 }

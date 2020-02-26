@@ -1,15 +1,12 @@
 {
   "rulesDirectory": [
-    "node_modules/codelyzer"
+    "node_modules/codelyzer",
+    "node_modules/rxjs-tslint"
   ],
   "rules": {
     "arrow-return-shorthand": true,
     "callable-types": true,
     "class-name": true,
-    "comment-format": [
-      true,
-      "check-space"
-    ],
     "curly": true,
     "deprecation": {
       "severity": "warn"

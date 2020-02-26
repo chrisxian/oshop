@@ -13,11 +13,11 @@ export class ProductService {
 
   list: Product[];
   readonly productsURL = 'https://localhost:5001/api/products';
-  //after adapting the server side to Enable Cross-Origin Request, 
-  //still only https schema request are allowed, otherise there will still be
-  //problem with the response from that server the lack of the necessary Access-Control-Allow-Origin header!
+  // after adapting the server side to Enable Cross-Origin Request,    
+  // still only https schema request are allowed, otherise there will still be
+  // problem with the response from that server the lack of the necessary Access-Control-Allow-Origin header!
 
-  //web API expects a special header in HTTP post/put/delete requests??
+  // web API expects a special header in HTTP post/put/delete requests??
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -26,7 +26,7 @@ export class ProductService {
 
   constructor(private http: HttpClient, httpErrorHandler: HttpErrorHandler) {
     this.handleError = httpErrorHandler.createHandleError('HeroesService');
-   }
+  }
 
   getAll(): Observable<Product[]> {
     return this.http.get<Product[]>(this.productsURL)

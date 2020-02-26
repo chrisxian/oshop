@@ -3,11 +3,11 @@ import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';  
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms'; // <== add the imports!
 import { RouterModule } from '@angular/router';
 import { CustomFormsModule } from 'ng2-validation';
-import { HttpClientModule  } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { environment } from 'src/environments/environment';
@@ -24,7 +24,7 @@ import { LoginComponent } from './login/login.component';
 import { ProductFormComponent } from './admin/product-form/product-form.component';
 import { CategoryService } from './category.service';
 import { ProductService } from './product.service';
-import { HttpErrorHandler }     from './http-error-handler.service';
+import { HttpErrorHandler } from './http-error-handler.service';
 
 
 @NgModule({
@@ -52,17 +52,17 @@ import { HttpErrorHandler }     from './http-error-handler.service';
     AngularFireModule.initializeApp(environment.firebase),
     NgbModule.forRoot(),
     RouterModule.forRoot([
-      { path: '', component: ProductsComponent},
-      { path: 'products', component: ProductsComponent},
-      { path: 'shopping-cart', component: ShoppingCartComponent},
-      { path: 'check-out', component: CheckOutComponent},
-      { path: 'order-success', component: OrderSuccessComponent}, 
-      { path: 'my/orders', component: MyOrdersComponent},
-      { path: 'login', component: LoginComponent},
-      { path: 'admin/products/new', component: ProductFormComponent},
-      { path: 'admin/products/:id', component: ProductFormComponent},     
-      { path: 'admin/products', component: AdminProductsComponent},     
-      { path: 'admin/orders', component: AdminOrdersComponent},      
+      { path: '', component: ProductsComponent },
+      { path: 'products', component: ProductsComponent },
+      { path: 'shopping-cart', component: ShoppingCartComponent },
+      { path: 'check-out', component: CheckOutComponent },
+      { path: 'order-success', component: OrderSuccessComponent },
+      { path: 'my/orders', component: MyOrdersComponent },
+      { path: 'login', component: LoginComponent },
+      { path: 'admin/products/new', component: ProductFormComponent },
+      { path: 'admin/products/:id', component: ProductFormComponent },
+      { path: 'admin/products', component: AdminProductsComponent },
+      { path: 'admin/orders', component: AdminOrdersComponent },
     ])
   ],
   providers: [
