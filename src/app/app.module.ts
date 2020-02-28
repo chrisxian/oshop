@@ -20,7 +20,7 @@ import { ProductFormComponent } from './admin/product-form/product-form.componen
 import { CategoryService } from './category.service';
 import { ProductService } from './product.service';
 import { HttpErrorHandler } from './http-error-handler.service';
-
+import { CustomFormsModule } from 'ngx-custom-validators';
 
 @NgModule({
   declarations: [
@@ -40,6 +40,7 @@ import { HttpErrorHandler } from './http-error-handler.service';
   imports: [
     BrowserModule,
     FormsModule,
+    CustomFormsModule,
     HttpClientModule,
     NgbModule,
     RouterModule.forRoot([
