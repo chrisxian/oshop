@@ -58,7 +58,7 @@ export class ProductFormComponent implements OnInit {
     } else {
       this.productService.create(product).subscribe(navigateAfterSave);
     }
-    // this.router.navigate(['/admin/products']);    
+    // this.router.navigate(['/admin/products']);      
   }
 
   delete() {

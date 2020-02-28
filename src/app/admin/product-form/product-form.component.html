@@ -18,8 +18,8 @@
           <input #price="ngModel" [(ngModel)]="product.price" name="price" type="number" id="price" class="form-control" aria-label="Amount (to the nearest dollar)" required [min]="0">
          </div>
          <div class="alert alert-danger" *ngIf="price.touched && price.invalid">      
-          <div *ngIf="price.errors.required">price is required.</div>
-          <div *ngIf="price.errors.min">price should be 0 or higher.</div>
+          <div *ngIf="price.errors?.required">price is required.</div>
+          <div *ngIf="price.errors?.min">price should be 0 or higher.</div>
         </div>
       </div>  
        
@@ -54,7 +54,7 @@
       <img [src]="product.imageUrl" class="card-img-top" *ngIf="product.imageUrl">
       <div class="card-body">
         <h5 class="card-title">{{ product.title }}</h5>
-        <p class="card-text">{{ product.price | currency :'USD' :true}}</p>
+        <p class="card-text">{{ product.price | currency :'USD' :symbol-narrow}}</p>
       </div>
     </div>
   </div>

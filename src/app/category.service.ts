@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
 import { Category } from './model/category';
 import { HttpClient } from '@angular/common/http';
 import { HandleError, HttpErrorHandler } from './http-error-handler.service';
+
 
 @Injectable({
   providedIn: 'root'

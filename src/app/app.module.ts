@@ -1,16 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { AngularFireModule } from '@angular/fire';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { AngularFireAuthModule } from '@angular/fire/auth';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms'; // <== add the imports!
 import { RouterModule } from '@angular/router';
-import { CustomFormsModule } from 'ng2-validation';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { environment } from 'src/environments/environment';
 import { BsNavbarComponent } from './bs-navbar/bs-navbar.component';
 import { HomeComponent } from './home/home.component';
 import { ProductsComponent } from './products/products.component';
@@ -45,12 +40,8 @@ import { HttpErrorHandler } from './http-error-handler.service';
   imports: [
     BrowserModule,
     FormsModule,
-    CustomFormsModule,
     HttpClientModule,
-    AngularFirestoreModule,
-    AngularFireAuthModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    NgbModule.forRoot(),
+    NgbModule,
     RouterModule.forRoot([
       { path: '', component: ProductsComponent },
       { path: 'products', component: ProductsComponent },
