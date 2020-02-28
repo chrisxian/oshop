@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { BsNavbarComponent } from './bs-navbar/bs-navbar.component';
 import { HomeComponent } from './home/home.component';
 import { ProductsComponent } from './products/products.component';
+import { ProductFilterComponent } from './products/product-filter/product-filter.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { CheckOutComponent } from './check-out/check-out.component';
 import { OrderSuccessComponent } from './order-success/order-success.component';
@@ -28,6 +29,7 @@ import { CustomFormsModule } from 'ngx-custom-validators';
     BsNavbarComponent,
     HomeComponent,
     ProductsComponent,
+    ProductFilterComponent,
     ShoppingCartComponent,
     CheckOutComponent,
     OrderSuccessComponent,

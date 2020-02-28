@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../product.service';
-import { CategoryService } from '../category.service';
 import { ActivatedRoute } from '@angular/router';
 import { Product } from '../model/product';
 import { switchMap } from 'rxjs/operators';
@@ -14,12 +13,11 @@ export class ProductsComponent implements OnInit {
 
   products: Product[] = [];
   filteredProducts: Product[] = [];
-  categories$;
+
   categoryId: string;
 
   constructor(route: ActivatedRoute,
-    private productService: ProductService,
-    private categoryService: CategoryService) {
+    private productService: ProductService) {
 
     productService.getAll()
       .pipe(switchMap(products => {
@@ -33,9 +31,6 @@ export class ProductsComponent implements OnInit {
           this.products.filter(p => p.category === this.categoryId) :
           this.products;
       });
-
-      this.categories$ = this.categoryService.getAll();
-      // no need to subscribe, the asycn pipe '|' also can unwrap the observable.
   }
 
   ngOnInit() {
