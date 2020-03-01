@@ -24,7 +24,7 @@ export class ProductService {
   private handleError: HandleError;
 
   constructor(private http: HttpClient, httpErrorHandler: HttpErrorHandler) {
-    this.handleError = httpErrorHandler.createHandleError('HeroesService');
+    this.handleError = httpErrorHandler.createHandleError('ProductService');
   }
 
   getAll(): Observable<Product[]> {
