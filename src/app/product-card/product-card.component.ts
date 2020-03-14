@@ -18,7 +18,7 @@ export class ProductCardComponent {
     let cartId = localStorage.getItem('cartId');
     if (!cartId) {
       this.cartService.create().subscribe(cart => {
-        localStorage.setItem('cartId', cart.Id);
+        localStorage.setItem('cartId', cart.id);
       });
     }
 
