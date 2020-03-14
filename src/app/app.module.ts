@@ -23,6 +23,7 @@ import { CategoryService } from './category.service';
 import { ProductService } from './product.service';
 import { HttpErrorHandler } from './http-error-handler.service';
 import { CustomFormsModule } from 'ngx-custom-validators';
+import { ShoppingCartService } from './shopping-cart.service';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { CustomFormsModule } from 'ngx-custom-validators';
   providers: [
     CategoryService,
     ProductService,
-    HttpErrorHandler
+    HttpErrorHandler,
+    ShoppingCartService
   ],
   bootstrap: [AppComponent]
 })
