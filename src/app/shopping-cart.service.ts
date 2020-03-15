@@ -3,6 +3,7 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { HandleError, HttpErrorHandler } from './http-error-handler.service';
 import { Observable } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
+import { Product } from './model/product';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,21 @@ export class ShoppingCartService {
     this.handleError = httpErrorHandler.createHandleError('ShoppingCartService');
   }
 
-  create(): Observable<any> {
+  addToCart(product: Product) {
+    this.getOrCreateCartId();
+    // TODO: add product to cart.
+  }
+
+  private getOrCreateCartId() {
+    let cartId = localStorage.getItem('cartId');
+    if (!cartId) {
+      this.create().subscribe(cart => {
+        localStorage.setItem('cartId', cart.id);
+      });
+    }
+  }
+
+  private create(): Observable<any> {
     let time = new Date().getTime();
     let cartNode = { dateCreated: time.toString() };
     return this.http.post<any>(this.cartsURL, cartNode, this.httpOptions)
@@ -31,4 +46,6 @@ export class ShoppingCartService {
         catchError(this.handleError<any>('create', cartNode))
       );
   }
+
+
 }
