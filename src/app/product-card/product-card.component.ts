@@ -15,7 +15,7 @@ export class ProductCardComponent {
   constructor(private cartService: ShoppingCartService) { }
 
   addToCart(product: Product) {
-    this.cartService.addToCart(this.product);
+    this.cartService.addToCart(this.product).subscribe((_) => console.log(_));
   }
 
 }
