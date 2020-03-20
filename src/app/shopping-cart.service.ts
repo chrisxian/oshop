@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { HandleError, HttpErrorHandler } from './http-error-handler.service';
-import { Observable } from 'rxjs';
-import { tap, catchError } from 'rxjs/operators';
+import { Observable, from } from 'rxjs';
+import { tap, catchError, take } from 'rxjs/operators';
 import { Product } from './model/product';
 
 @Injectable({
@@ -23,18 +23,26 @@ export class ShoppingCartService {
     this.handleError = httpErrorHandler.createHandleError('ShoppingCartService');
   }
 
+  // Note: this service method execute by call without returning Observable, against pattern..?
   addToCart(product: Product) {
-    this.getOrCreateCartId();
-    // TODO: add product to cart.
-  }
-
-  private getOrCreateCartId() {
     let cartId = localStorage.getItem('cartId');
-    if (!cartId) {
+    if (cartId) {
+      this.addProductToCart(cartId, product).subscribe((_) => console.log(_));
+    } else {
       this.create().subscribe(cart => {
         localStorage.setItem('cartId', cart.id);
+        this.addProductToCart(cart.id, product).subscribe((_) => console.log(_));
       });
     }
+  }
+
+  private addProductToCart(cardId: string, product: Product): Observable<any> {
+    const url = `${this.cartsURL}/${cardId}/${product.id}`;
+    return this.http.put(url, {}, this.httpOptions)
+      .pipe(
+        tap(_ => console.log(`updated product id=${product.id}`)),
+        catchError(this.handleError<any>('updateProduct', product))
+      );
   }
 
   private create(): Observable<any> {
