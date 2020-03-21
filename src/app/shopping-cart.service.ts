@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { HandleError, HttpErrorHandler } from './http-error-handler.service';
 import { Observable, from } from 'rxjs';
-import { tap, catchError, take, map, concatMap } from 'rxjs/operators';
+import { tap, catchError, map, switchMap } from 'rxjs/operators';
 import { Product } from './model/product';
 
 @Injectable({
@@ -28,9 +28,26 @@ export class ShoppingCartService {
       tap(cartId => {
         localStorage.setItem('cartId', cartId);
       }),
-      concatMap(cartId =>
+      switchMap(cartId =>
         this.addProductToCart(cartId, product)
-      )
+      ),
+    );
+  }
+
+  getCart(): Observable<any> {
+    return this.getOrCreateCart().pipe(
+      tap(cartId => {
+        localStorage.setItem('cartId', cartId);
+      }),
+      switchMap(cartId => this.get(cartId))
+    );
+  }
+
+  private get(cartId: string): Observable<any> {
+    const url = `${this.cartsURL}/${cartId}`;
+    return this.http.get<any>(url).pipe(
+      tap(_ => console.log(`fetched ShoppingCart, id=${cartId}`)),
+      catchError(this.handleError<Product>(`get ShoppingCart with Id=${cartId}`))
     );
   }
 
@@ -49,8 +66,7 @@ export class ShoppingCartService {
     const url = `${this.cartsURL}/${cardId}/${product.id}`;
     return this.http.put(url, {}, this.httpOptions)
       .pipe(
-        tap(_ => console.log(`updated product id=${product.id}`)),
-        catchError(this.handleError<any>('updateProduct', product))
+        catchError(this.handleError<any>('addProductToCart', {}))
       );
   }
 
