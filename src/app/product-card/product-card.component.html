@@ -5,7 +5,19 @@
         <p class="card-text">{{product.price | currency:'USD': 'symbol-narrow' }}</p>
     </div>
     <div *ngIf="showActions" class="card-footer">
-        <button (click)="addToCart(product)" class="btn btn-primary btn-block">Add to Cart</button>
-        <div>{{ qty }}</div>
+        <button *ngIf="qty===0;else updateQuantity" (click)="addToCart(product)"
+            class="btn btn-primary btn-block">Add to Cart</button>
+        <ng-template #updateQuantity>
+            <div class="row no-gutters">
+                <div class="col-2">
+                    <btton class="btn btn-secondary btn-block">-</btton>
+                </div>
+                <div class="col text-center">{{ qty }}</div>
+                <div class="col-2">
+                    <btton class="btn btn-primary btn-block">+</btton>
+                </div>
+            </div>
+        </ng-template>
+
     </div>
 </div>

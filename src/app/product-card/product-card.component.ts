@@ -14,7 +14,7 @@ export class ProductCardComponent implements OnInit, OnDestroy {
   @Input('product') product: Product;
   @Input('show-actions') showActions = true;
 
-  qty: number;
+  qty: number = 0;
   subscription: Subscription;
 
   constructor(private cartService: ShoppingCartService) { }
