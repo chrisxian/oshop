@@ -4,6 +4,7 @@ import { HandleError, HttpErrorHandler } from './http-error-handler.service';
 import { Observable, from } from 'rxjs';
 import { tap, catchError, map, switchMap } from 'rxjs/operators';
 import { Product } from './model/product';
+import { ShoppingCart } from './model/shopping-cart';
 
 @Injectable({
   providedIn: 'root'
@@ -52,7 +53,7 @@ export class ShoppingCartService {
     );
   }
 
-  update(cartId, cart: any): Observable<any> {
+  update(cartId, cart: ShoppingCart): Observable<any> {
     const url = `${this.cartsURL}/${cartId}`;
     return this.http.put(url, cart, this.httpOptions)
       .pipe(
@@ -61,7 +62,7 @@ export class ShoppingCartService {
       );
   }
 
-  getCart(): Observable<any> {
+  getCart(): Observable<ShoppingCart> {
     return this.getOrCreateCart().pipe(
       tap(cartId => {
         localStorage.setItem('cartId', cartId);
@@ -70,11 +71,11 @@ export class ShoppingCartService {
     );
   }
 
-  private get(cartId: string): Observable<any> {
+  private get(cartId: string): Observable<ShoppingCart> {
     const url = `${this.cartsURL}/${cartId}`;
-    return this.http.get<any>(url).pipe(
+    return this.http.get<ShoppingCart>(url).pipe(
       tap(_ => console.log(`fetched ShoppingCart, id=${cartId}`)),
-      catchError(this.handleError<Product>(`get ShoppingCart with Id=${cartId}`))
+      catchError(this.handleError<ShoppingCart>(`get ShoppingCart with Id=${cartId}`))
     );
   }
 
@@ -98,15 +99,13 @@ export class ShoppingCartService {
       );
   }
 
-  private create(): Observable<any> {
+  private create(): Observable<ShoppingCart> {
     let time = new Date().getTime();
-    let cartNode = { dateCreated: time.toString() };
-    return this.http.post<any>(this.cartsURL, cartNode, this.httpOptions)
+    let cartNode = { dateCreated: time.toString() } as ShoppingCart;
+    return this.http.post<ShoppingCart>(this.cartsURL, cartNode, this.httpOptions)
       .pipe(
-        tap((newNode) => console.log(`added cartNode w/ id=${newNode.id}`)),
-        catchError(this.handleError<any>('create', cartNode))
+        tap((newCart) => console.log(`ShoppingCartService create new cart, id=${newCart.id}`)),
+        catchError(this.handleError<ShoppingCart>('create', cartNode))
       );
   }
-
-
 }

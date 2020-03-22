@@ -3,6 +3,7 @@ import { Product } from '../model/product';
 import { ShoppingCartService } from '../shopping-cart.service';
 import { concatMap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { ShoppingCart } from '../model/shopping-cart';
 
 @Component({
   selector: 'app-product-card',
@@ -42,7 +43,7 @@ export class ProductCardComponent implements OnInit, OnDestroy {
       .subscribe(cart => this.qty = this.getQuantity(cart));
   }
 
-  private getQuantity(shoppingCart: any) {
+  private getQuantity(shoppingCart: ShoppingCart) {
     if (!shoppingCart) {
       return 0;
     }
