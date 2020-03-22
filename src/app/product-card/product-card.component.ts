@@ -26,13 +26,20 @@ export class ProductCardComponent implements OnInit, OnDestroy {
     }
   }
 
-  addToCart(product: Product) {
+  addToCart(): void {
     this.cartService.addToCart(this.product)
       .pipe(
         concatMap((_) => this.cartService.getCart())
       )
-      .subscribe(cart =>
-        this.qty = this.getQuantity(cart));
+      .subscribe(cart => this.qty = this.getQuantity(cart));
+  }
+
+  removeFromCart(): void {
+    this.cartService.removeFromCart(this.product)
+      .pipe(
+        concatMap((_) => this.cartService.getCart())
+      )
+      .subscribe(cart => this.qty = this.getQuantity(cart));
   }
 
   private getQuantity(shoppingCart: any) {

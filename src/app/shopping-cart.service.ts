@@ -24,14 +24,41 @@ export class ShoppingCartService {
   }
 
   addToCart(product: Product): Observable<any> {
+    return this.updateItemQuantity(product, 1);
+  }
+
+  removeFromCart(product: Product): Observable<any> {
+    return this.updateItemQuantity(product, -1);
+  }
+
+  private updateItemQuantity(product, change: number): Observable<any> {
     return this.getOrCreateCart().pipe(
-      tap(cartId => {
-        localStorage.setItem('cartId', cartId);
-      }),
-      switchMap(cartId =>
-        this.addProductToCart(cartId, product)
-      ),
+      tap(cartId => localStorage.setItem('cartId', cartId)),
+      switchMap(cartId => this.get(cartId)),
+      switchMap(cart => {
+        if (!cart.items) {
+          var item = { productId: product.id, quantity: 0 };
+          cart.items = [item];
+        }
+        var itemInCart = cart.items.find(x => x.productId == product.id);
+        if (!itemInCart) {
+          itemInCart = { productId: product.id, quantity: 1 };
+          cart.items.push(itemInCart);
+        } else {
+          itemInCart.quantity += change;
+        }
+        return this.update(cart.id, cart);
+      })
     );
+  }
+
+  update(cartId, cart: any): Observable<any> {
+    const url = `${this.cartsURL}/${cartId}`;
+    return this.http.put(url, cart, this.httpOptions)
+      .pipe(
+        tap(_ => console.log(`updated shoppingCart, id=${cart.id}`)),
+        catchError(this.handleError<any>('updateShoppingCart', cart))
+      );
   }
 
   getCart(): Observable<any> {
@@ -62,6 +89,7 @@ export class ShoppingCartService {
     }
   }
 
+  // deprecated: url is not RESTful
   private addProductToCart(cardId: string, product: Product): Observable<any> {
     const url = `${this.cartsURL}/${cardId}/${product.id}`;
     return this.http.put(url, {}, this.httpOptions)
