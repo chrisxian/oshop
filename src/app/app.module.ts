@@ -1,8 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule } from '@angular/forms'; // <== add the imports!
-import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
@@ -24,6 +23,7 @@ import { ProductService } from './product.service';
 import { HttpErrorHandler } from './http-error-handler.service';
 import { CustomFormsModule } from 'ngx-custom-validators';
 import { ShoppingCartService } from './shopping-cart.service';
+import { appRoutingModule } from './app.routing';
 
 @NgModule({
   declarations: [
@@ -48,19 +48,7 @@ import { ShoppingCartService } from './shopping-cart.service';
     CustomFormsModule,
     HttpClientModule,
     NgbModule,
-    RouterModule.forRoot([
-      { path: '', component: ProductsComponent },
-      { path: 'products', component: ProductsComponent },
-      { path: 'shopping-cart', component: ShoppingCartComponent },
-      { path: 'check-out', component: CheckOutComponent },
-      { path: 'order-success', component: OrderSuccessComponent },
-      { path: 'my/orders', component: MyOrdersComponent },
-      { path: 'login', component: LoginComponent },
-      { path: 'admin/products/new', component: ProductFormComponent },
-      { path: 'admin/products/:id', component: ProductFormComponent },
-      { path: 'admin/products', component: AdminProductsComponent },
-      { path: 'admin/orders', component: AdminOrdersComponent },
-    ])
+    appRoutingModule
   ],
   providers: [
     CategoryService,
