@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { HandleError, HttpErrorHandler } from './http-error-handler.service';
 import { Observable, from } from 'rxjs';
 import { tap, catchError, map, switchMap } from 'rxjs/operators';
-import { Product } from './model/product';
-import { ShoppingCart } from './model/shopping-cart';
+import { Product, ShoppingCart } from '@app/model';
+import { HandleError, HttpErrorHandler } from '@app/http-error-handler.service';
 
 @Injectable({
   providedIn: 'root'

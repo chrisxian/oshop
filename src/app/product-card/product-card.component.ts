@@ -1,9 +1,8 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { Product } from '../model/product';
+import { Product, ShoppingCart } from '@app/model';
 import { ShoppingCartService } from '../shopping-cart.service';
 import { concatMap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
-import { ShoppingCart } from '../model/shopping-cart';
 
 @Component({
   selector: 'app-product-card',

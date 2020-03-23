@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, catchError, tap } from 'rxjs/operators';
-import { Category } from './model/category';
+import { catchError, tap } from 'rxjs/operators';
+import { Category } from '@app/model';
 import { HttpClient } from '@angular/common/http';
-import { HandleError, HttpErrorHandler } from './http-error-handler.service';
+import { HandleError, HttpErrorHandler } from '@app/http-error-handler.service';
 
 
 @Injectable({
