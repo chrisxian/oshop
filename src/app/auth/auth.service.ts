@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 
-import { Observable, of, BehaviorSubject } from 'rxjs';
-import { tap, delay, map } from 'rxjs/operators';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { User } from '@app/model';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '@environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl: string = "https://localhost:5001/api";
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
 
@@ -23,7 +23,7 @@ export class AuthService {
   }
 
   login(username: string, password: string) {
-    return this.http.post<any>(`${this.apiUrl}/users/authenticate`, { username, password })
+    return this.http.post<any>(`${environment.apiUrl}/users/authenticate`, { username, password })
       .pipe(map(user => {
         // login successful if there's a jwt token in the response
         if (user && user.token) {

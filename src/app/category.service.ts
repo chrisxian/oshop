@@ -4,6 +4,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { Category } from '@app/model';
 import { HttpClient } from '@angular/common/http';
 import { HandleError, HttpErrorHandler } from '@app/http-error-handler.service';
+import { environment } from '@environments/environment';
 
 
 @Injectable({
@@ -11,7 +12,7 @@ import { HandleError, HttpErrorHandler } from '@app/http-error-handler.service';
 })
 export class CategoryService {
 
-  readonly categoriesURL = 'https://localhost:5001/api/categories';
+  readonly categoriesURL = `${environment.apiUrl}/categories`;
 
   private handleError: HandleError;
 

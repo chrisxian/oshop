@@ -4,13 +4,15 @@ import { Observable, from } from 'rxjs';
 import { tap, catchError, map, switchMap } from 'rxjs/operators';
 import { Product, ShoppingCart } from '@app/model';
 import { HandleError, HttpErrorHandler } from '@app/http-error-handler.service';
+import { environment } from '@environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ShoppingCartService {
 
-  readonly cartsURL = 'https://localhost:5001/api/shoppingCarts';
+  readonly cartsURL = `${environment.apiUrl}/shoppingCarts`;
+  
 
   // web API expects a special header in HTTP post/put/delete requests??
   httpOptions = {

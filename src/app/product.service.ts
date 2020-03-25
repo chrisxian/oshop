@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { HandleError, HttpErrorHandler } from './http-error-handler.service';
+import { environment } from '@environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ import { HandleError, HttpErrorHandler } from './http-error-handler.service';
 export class ProductService {
 
   list: Product[];
-  readonly productsURL = 'https://localhost:5001/api/products';
+  readonly productsURL = `${environment.apiUrl}/products`;
   // after adapting the server side to Enable Cross-Origin Request,      
   // still only https schema request are allowed, otherise there will still be
   // problem with the response from that server the lack of the necessary Access-Control-Allow-Origin header!
