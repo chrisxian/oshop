@@ -1,11 +1,13 @@
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { JwtInterceptor } from "./jwt.interceptor";
 import { FakeAuthBackendInterceptor } from "./fake-auth-backend";
+import { HttpErrorInterceptor } from "./http-error.interceptor";
 
 export const httpInterceptorProviders = [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     // use fake backend in place of Http service for backend-less development
-    { provide: HTTP_INTERCEPTORS, useClass: FakeAuthBackendInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: FakeAuthBackendInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }
 ];
 
 // why this index.ts file:
