@@ -24,6 +24,7 @@ import { HttpErrorHandler } from './http-error-handler.service';
 import { CustomFormsModule } from 'ngx-custom-validators';
 import { ShoppingCartService } from './shopping-cart.service';
 import { appRoutingModule } from './app.routing';
+import { httpInterceptorProviders } from './http-interceptors';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { appRoutingModule } from './app.routing';
     CategoryService,
     ProductService,
     HttpErrorHandler,
-    ShoppingCartService
+    ShoppingCartService,
+    httpInterceptorProviders
   ],
   bootstrap: [AppComponent]
 })
