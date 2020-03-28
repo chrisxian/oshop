@@ -4,6 +4,10 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from '@app/auth/auth.service';
 
+// the Jwt token might expire after a while,
+// in case client user made some operations that triggers a Http request(with expired token) and got rejected.
+// the SPA application could reload and redirect user to login page.
+// otherwise, the user may still remains on a protected page with silent warnings in the console.
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
     constructor(private authenticationService: AuthService) { }
