@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { Observable, from } from 'rxjs';
+import { Observable, from, Subject } from 'rxjs';
 import { tap, catchError, map, switchMap } from 'rxjs/operators';
 import { Product, ShoppingCart } from '@app/model';
 import { HandleError, HttpErrorHandler } from '@app/http-error-handler.service';
@@ -12,7 +12,7 @@ import { environment } from '@environments/environment';
 export class ShoppingCartService {
 
   readonly cartsURL = `${environment.apiUrl}/shoppingCarts`;
-  
+  public shoppingCart$: Subject<ShoppingCart>;
 
   // web API expects a special header in HTTP post/put/delete requests??
   httpOptions = {
@@ -23,6 +23,8 @@ export class ShoppingCartService {
 
   constructor(private http: HttpClient, httpErrorHandler: HttpErrorHandler) {
     this.handleError = httpErrorHandler.createHandleError('ShoppingCartService');
+    this.shoppingCart$ = new Subject<ShoppingCart>();
+    this.getCart().subscribe(cart=> this.shoppingCart$.next(cart));
   }
 
   addToCart(product: Product): Observable<any> {
@@ -58,7 +60,10 @@ export class ShoppingCartService {
     const url = `${this.cartsURL}/${cartId}`;
     return this.http.put(url, cart, this.httpOptions)
       .pipe(
-        tap(_ => console.log(`updated shoppingCart, id=${cart.id}`)),
+        tap(_ => {
+          console.log(`updated shoppingCart, id=${cart.id}`);
+          this.shoppingCart$.next(cart);
+        }),
         catchError(this.handleError<any>('updateShoppingCart', cart))
       );
   }
@@ -85,9 +90,7 @@ export class ShoppingCartService {
     if (cartId) {
       return from([cartId])
     } else {
-      return this.create().pipe(
-        map(cart => cart.id)
-      );
+      return this.create().pipe(map(cart => cart.id));
     }
   }
 
