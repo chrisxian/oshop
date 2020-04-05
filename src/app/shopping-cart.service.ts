@@ -24,7 +24,9 @@ export class ShoppingCartService {
   constructor(private http: HttpClient, httpErrorHandler: HttpErrorHandler) {
     this.handleError = httpErrorHandler.createHandleError('ShoppingCartService');
     this.shoppingCart$ = new Subject<ShoppingCart>();
-    this.getCart().subscribe(cart=> this.shoppingCart$.next(cart));
+    this.getCart().subscribe(cartFromBackend =>
+      this.shoppingCart$.next(
+        new ShoppingCart(cartFromBackend.id, cartFromBackend.dateCreated, cartFromBackend.items)));
   }
 
   addToCart(product: Product): Observable<any> {
@@ -62,7 +64,7 @@ export class ShoppingCartService {
       .pipe(
         tap(_ => {
           console.log(`updated shoppingCart, id=${cart.id}`);
-          this.shoppingCart$.next(cart);
+          this.shoppingCart$.next(new ShoppingCart(cart.id, cart.dateCreated, cart.items));
         }),
         catchError(this.handleError<any>('updateShoppingCart', cart))
       );
