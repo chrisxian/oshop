@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@app/auth/auth.service';
 import { Router } from '@angular/router';
 import { ShoppingCartService } from '@app/shopping-cart.service';
+import { Observable } from 'rxjs';
+import { ShoppingCart } from '@app/model';
 
 @Component({
   selector: 'app-bs-navbar',
@@ -10,15 +12,14 @@ import { ShoppingCartService } from '@app/shopping-cart.service';
 })
 export class BsNavbarComponent implements OnInit {
 
-  shoppingCartItemCount: number;
+  shoppingCart$: Observable<ShoppingCart>;
 
   constructor(private authService: AuthService, private router: Router,
-    private shoppingCartService: ShoppingCartService) { }
+    private shoppingCartService: ShoppingCartService) {
+  }
 
   ngOnInit() {
-    this.shoppingCartService.shoppingCart$.subscribe(cart=>{
-      this.shoppingCartItemCount = cart.totalItemsCount;
-    });
+    this.shoppingCart$ = this.shoppingCartService.shoppingCart$;
   }
 
   logout() {
