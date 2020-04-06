@@ -43,12 +43,12 @@ export class ShoppingCartService {
       switchMap(cartId => this.get(cartId)),
       switchMap(cart => {
         if (!cart.items) {
-          var item = { productId: product.id, quantity: 0 };
+          var item = { product: product, quantity: 0 };
           cart.items = [item];
         }
-        var itemInCart = cart.items.find(x => x.productId == product.id);
+        var itemInCart = cart.items.find(x => x.product.id == product.id);
         if (!itemInCart) {
-          itemInCart = { productId: product.id, quantity: 1 };
+          itemInCart = { product: product, quantity: 1 };
           cart.items.push(itemInCart);
         } else {
           itemInCart.quantity += change;

@@ -1,4 +1,6 @@
-export interface ShoppingCartItem {
-    productId: string;
+import { Product } from ".";
+
+export class ShoppingCartItem {
+    product: Product;
     quantity: number;
 }

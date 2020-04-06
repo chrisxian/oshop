@@ -46,7 +46,7 @@ export class ProductCardComponent implements OnInit, OnDestroy {
     if (!shoppingCart) {
       return 0;
     }
-    let item = shoppingCart.items?.find(x => x.productId == this.product.id);
+    let item = shoppingCart.items?.find(x => x.product.id == this.product.id);
     return item ? item.quantity : 0
   }
 
