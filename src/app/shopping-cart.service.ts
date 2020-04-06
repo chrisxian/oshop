@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Observable, from, Subject } from 'rxjs';
 import { tap, catchError, map, switchMap } from 'rxjs/operators';
-import { Product, ShoppingCart } from '@app/model';
+import { Product, ShoppingCart, ShoppingCartItem } from '@app/model';
 import { HandleError, HttpErrorHandler } from '@app/http-error-handler.service';
 import { environment } from '@environments/environment';
 
@@ -43,12 +43,12 @@ export class ShoppingCartService {
       switchMap(cartId => this.get(cartId)),
       switchMap(cart => {
         if (!cart.items) {
-          var item = { product: product, quantity: 0 };
+          var item = new ShoppingCartItem(product, 0);
           cart.items = [item];
         }
         var itemInCart = cart.items.find(x => x.product.id == product.id);
         if (!itemInCart) {
-          itemInCart = { product: product, quantity: 1 };
+          itemInCart = new ShoppingCartItem(product, 1);
           cart.items.push(itemInCart);
         } else {
           itemInCart.quantity += change;
@@ -83,7 +83,7 @@ export class ShoppingCartService {
     const url = `${this.cartsURL}/${cartId}`;
     return this.http.get<ShoppingCart>(url).pipe(
       tap(_ => console.log(`fetched ShoppingCart, id=${cartId}`)),
-      map(cartFromBe => new ShoppingCart(cartFromBe.id,cartFromBe.dateCreated,cartFromBe.items)),
+      map(cartFromBe => new ShoppingCart(cartFromBe.id, cartFromBe.dateCreated, cartFromBe.items)),
       catchError(this.handleError<ShoppingCart>(`get ShoppingCart with Id=${cartId}`))
     );
   }
