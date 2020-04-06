@@ -58,7 +58,16 @@ export class ShoppingCartService {
     );
   }
 
-  update(cartId, cart: ShoppingCart): Observable<any> {
+  getCart(): Observable<ShoppingCart> {
+    return this.getOrCreateCart().pipe(
+      tap(cartId => {
+        localStorage.setItem('cartId', cartId);
+      }),
+      switchMap(cartId => this.get(cartId))
+    );
+  }
+
+  private update(cartId, cart: ShoppingCart): Observable<any> {
     const url = `${this.cartsURL}/${cartId}`;
     return this.http.put(url, cart, this.httpOptions)
       .pipe(
@@ -70,19 +79,11 @@ export class ShoppingCartService {
       );
   }
 
-  getCart(): Observable<ShoppingCart> {
-    return this.getOrCreateCart().pipe(
-      tap(cartId => {
-        localStorage.setItem('cartId', cartId);
-      }),
-      switchMap(cartId => this.get(cartId))
-    );
-  }
-
   private get(cartId: string): Observable<ShoppingCart> {
     const url = `${this.cartsURL}/${cartId}`;
     return this.http.get<ShoppingCart>(url).pipe(
       tap(_ => console.log(`fetched ShoppingCart, id=${cartId}`)),
+      map(cartFromBe => new ShoppingCart(cartFromBe.id,cartFromBe.dateCreated,cartFromBe.items)),
       catchError(this.handleError<ShoppingCart>(`get ShoppingCart with Id=${cartId}`))
     );
   }
