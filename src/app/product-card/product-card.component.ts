@@ -17,38 +17,19 @@ export class ProductCardComponent implements OnInit, OnDestroy {
   qty: number = 0;
   subscription: Subscription;
 
-  constructor(private cartService: ShoppingCartService) { }
+  constructor(private cartService: ShoppingCartService) {
+  }
 
   ngOnInit(): void {
-    let cartId = localStorage.getItem('cartId');
-    if (cartId) {
-      this.subscription = this.cartService.getCart().subscribe(cart => this.qty = this.getQuantity(cart))
-    }
+    this.subscription = 
+    this.cartService.getCart().subscribe(cart => this.qty = cart.getQuantity(this.product));
+    this.cartService.shoppingCart$.subscribe(cart => this.qty = cart.getQuantity(this.product));
   }
 
   addToCart(): void {
-    this.cartService.addToCart(this.product)
-      .pipe(
-        concatMap((_) => this.cartService.getCart())
-      )
-      .subscribe(cart => this.qty = this.getQuantity(cart));
+    this.cartService.addToCart(this.product).subscribe(_ => { });
   }
 
-  removeFromCart(): void {
-    this.cartService.removeFromCart(this.product)
-      .pipe(
-        concatMap((_) => this.cartService.getCart())
-      )
-      .subscribe(cart => this.qty = this.getQuantity(cart));
-  }
-
-  private getQuantity(shoppingCart: ShoppingCart) {
-    if (!shoppingCart) {
-      return 0;
-    }
-    let item = shoppingCart.items?.find(x => x.product.id == this.product.id);
-    return item ? item.quantity : 0
-  }
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();

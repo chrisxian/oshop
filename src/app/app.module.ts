@@ -25,6 +25,7 @@ import { CustomFormsModule } from 'ngx-custom-validators';
 import { ShoppingCartService } from './shopping-cart.service';
 import { appRoutingModule } from './app.routing';
 import { httpInterceptorProviders } from './http-interceptors';
+import { ProductQuantityComponent } from './product-quantity/product-quantity.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { httpInterceptorProviders } from './http-interceptors';
     ProductCardComponent,
     ProductFilterComponent,
     ShoppingCartComponent,
+    ProductQuantityComponent,
     CheckOutComponent,
     OrderSuccessComponent,
     MyOrdersComponent,

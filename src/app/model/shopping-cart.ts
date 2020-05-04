@@ -23,4 +23,9 @@ export class ShoppingCart {
         this.items?.forEach(item => sum += item.totalPrice);
         return sum;
     }
+
+    getQuantity(product: Product) {
+        let item = this.items.find(x => x.product.id == product.id);
+        return item ? item.quantity : 0
+    }
 }
