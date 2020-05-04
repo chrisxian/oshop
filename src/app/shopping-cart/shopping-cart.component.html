@@ -27,4 +27,5 @@
       <th>{{cart.totalPrice | currency:'USD': 'symbol-narrow'}}</th>
     </thead>
   </table>
+  <button *ngIf="cart.items.length !== 0" (click)="clearCart()" class="btn-danger btn-sm">Clear shopping cart</button>
 </ng-container>

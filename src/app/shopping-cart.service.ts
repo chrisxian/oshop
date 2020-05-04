@@ -37,6 +37,19 @@ export class ShoppingCartService {
     return this.updateItemQuantity(product, -1);
   }
 
+  clearCart(){
+    return this.getOrCreateCart().pipe(
+      tap(cartId => localStorage.setItem('cartId', cartId)),
+      switchMap(cartId => this.get(cartId)),
+      switchMap(cart => {
+        if (cart.items) {
+          cart.items = [];
+        }
+        return this.update(cart.id, cart);
+      })
+    );
+  }
+
   private updateItemQuantity(product, change: number): Observable<any> {
     return this.getOrCreateCart().pipe(
       tap(cartId => localStorage.setItem('cartId', cartId)),
