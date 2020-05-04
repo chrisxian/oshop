@@ -7,7 +7,7 @@ export class ShoppingCart {
 
     constructor(public id: string,
         public dateCreated: string,
-        public itemsArray: { product: Product, quantity: number }[]) {
+        private itemsArray: { product: Product, quantity: number }[]) {
         itemsArray?.forEach(x =>
             this.items.push(new ShoppingCartItem(x.product, x.quantity)));
     }

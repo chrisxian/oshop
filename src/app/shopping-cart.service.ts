@@ -65,6 +65,12 @@ export class ShoppingCartService {
           cart.items.push(itemInCart);
         } else {
           itemInCart.quantity += change;
+          // remove item from cart if quantity is 0.
+          if(itemInCart.quantity === 0){
+            let index = cart.items.indexOf(itemInCart);
+
+            cart.items.splice(index, 1);
+          }
         }
         return this.update(cart.id, cart);
       })
