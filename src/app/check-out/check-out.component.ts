@@ -3,6 +3,7 @@ import { ShoppingCartService } from '@app/shopping-cart.service';
 import { ShoppingCart } from '@app/model';
 import { Subscription } from 'rxjs';
 import { OrderService } from '@app/order.service';
+import { AuthService } from '@app/auth/auth.service';
 
 @Component({
   selector: 'app-check-out',
@@ -15,18 +16,26 @@ export class CheckOutComponent implements OnInit, OnDestroy {
   // otherwise access property of undefined error will disable the validation feature.
   shipping = {};
   cart: ShoppingCart;
-  subscription: Subscription;
+  userId: number;
+  subscriptions: Subscription[] = [];
   constructor(
     private orderService: OrderService,
-    private shoppingCartService: ShoppingCartService) { }
+    private shoppingCartService: ShoppingCartService,
+    private authService: AuthService) { }
 
   ngOnInit() {
-    this.subscription =
-      this.shoppingCartService.shoppingCart$.subscribe(cart => this.cart = cart);
+    this.subscriptions.push(
+      this.shoppingCartService.getCart().subscribe(cart =>
+        this.cart = cart));
+
+    this.subscriptions.push(
+      this.authService.currentUser.subscribe(user =>
+        this.userId = user.id));
   }
 
   placeOrder() {
     let order = {
+      userId: this.userId,
       datePlaced: new Date().getTime(),
       shipping: this.shipping,
       items: this.cart.items.map(i => {
@@ -46,7 +55,6 @@ export class CheckOutComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
-
 }
