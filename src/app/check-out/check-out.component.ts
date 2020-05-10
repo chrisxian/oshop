@@ -7,6 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CheckOutComponent implements OnInit {
 
+  // initially set shipping to an empty object, 
+  // otherwise access property of undefined error will disable the validation feature.
+  shipping = {};
+
   constructor() { }
 
   ngOnInit() {
