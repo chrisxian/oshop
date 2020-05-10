@@ -26,6 +26,7 @@ import { ShoppingCartService } from './shopping-cart.service';
 import { appRoutingModule } from './app.routing';
 import { httpInterceptorProviders } from './http-interceptors';
 import { ProductQuantityComponent } from './product-quantity/product-quantity.component';
+import { OrderService } from './order.service';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { ProductQuantityComponent } from './product-quantity/product-quantity.co
     ProductService,
     HttpErrorHandler,
     ShoppingCartService,
-    httpInterceptorProviders
+    httpInterceptorProviders,
+    OrderService
   ],
   bootstrap: [AppComponent]
 })
