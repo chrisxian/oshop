@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { Observable, from, Subject } from 'rxjs';
+import { Observable, from, Subject, BehaviorSubject } from 'rxjs';
 import { tap, catchError, map, switchMap } from 'rxjs/operators';
 import { Product, ShoppingCart, ShoppingCartItem } from '@app/model';
 import { HandleError, HttpErrorHandler } from '@app/http-error-handler.service';
@@ -12,7 +12,8 @@ import { environment } from '@environments/environment';
 export class ShoppingCartService {
 
   readonly cartsURL = `${environment.apiUrl}/shoppingCarts`;
-  public shoppingCart$: Subject<ShoppingCart>;
+  private shoppingCartSubject: BehaviorSubject<ShoppingCart>;
+  shoppingCart$: Observable<ShoppingCart>;
 
   // web API expects a special header in HTTP post/put/delete requests??
   httpOptions = {
@@ -23,10 +24,13 @@ export class ShoppingCartService {
 
   constructor(private http: HttpClient, httpErrorHandler: HttpErrorHandler) {
     this.handleError = httpErrorHandler.createHandleError('ShoppingCartService');
-    this.shoppingCart$ = new Subject<ShoppingCart>();
-    this.getCart().subscribe(cartFromBackend =>
-      this.shoppingCart$.next(
-        new ShoppingCart(cartFromBackend.id, cartFromBackend.dateCreated, cartFromBackend.items)));
+    this.getCart().subscribe(cartFromBackend => {
+      this.shoppingCartSubject = new BehaviorSubject<ShoppingCart>(
+        new ShoppingCart(cartFromBackend.id, cartFromBackend.dateCreated, cartFromBackend.items));
+      this.shoppingCart$ = this.shoppingCartSubject.asObservable();
+    }
+    );
+
   }
 
   addToCart(product: Product): Observable<any> {
@@ -37,7 +41,7 @@ export class ShoppingCartService {
     return this.updateItemQuantity(product, -1);
   }
 
-  clearCart(){
+  clearCart() {
     return this.getOrCreateCart().pipe(
       tap(cartId => localStorage.setItem('cartId', cartId)),
       switchMap(cartId => this.get(cartId)),
@@ -66,7 +70,7 @@ export class ShoppingCartService {
         } else {
           itemInCart.quantity += change;
           // remove item from cart if quantity is 0.
-          if(itemInCart.quantity === 0){
+          if (itemInCart.quantity === 0) {
             let index = cart.items.indexOf(itemInCart);
 
             cart.items.splice(index, 1);
@@ -92,7 +96,7 @@ export class ShoppingCartService {
       .pipe(
         tap(_ => {
           console.log(`updated shoppingCart, id=${cart.id}`);
-          this.shoppingCart$.next(new ShoppingCart(cart.id, cart.dateCreated, cart.items));
+          this.shoppingCartSubject.next(new ShoppingCart(cart.id, cart.dateCreated, cart.items));
         }),
         catchError(this.handleError<any>('updateShoppingCart', cart))
       );
