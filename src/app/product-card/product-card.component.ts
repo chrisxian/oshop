@@ -21,15 +21,12 @@ export class ProductCardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscription = 
-    this.cartService.getCart().subscribe(cart => this.qty = cart.getQuantity(this.product));
-    this.cartService.shoppingCart$.subscribe(cart => this.qty = cart.getQuantity(this.product));
+    this.subscription = this.cartService.shoppingCart$.subscribe(cart => this.qty = cart.getQuantity(this.product));
   }
 
   addToCart(): void {
     this.cartService.addToCart(this.product).subscribe(_ => { });
   }
-
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();

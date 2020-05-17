@@ -24,13 +24,14 @@ export class ShoppingCartService {
 
   constructor(private http: HttpClient, httpErrorHandler: HttpErrorHandler) {
     this.handleError = httpErrorHandler.createHandleError('ShoppingCartService');
+    this.shoppingCartSubject = new BehaviorSubject<ShoppingCart>(null);
+    this.shoppingCart$ = this.shoppingCartSubject.asObservable();
+
     this.getCart().subscribe(cartFromBackend => {
-      this.shoppingCartSubject = new BehaviorSubject<ShoppingCart>(
+      this.shoppingCartSubject.next(
         new ShoppingCart(cartFromBackend.id, cartFromBackend.dateCreated, cartFromBackend.items));
-      this.shoppingCart$ = this.shoppingCartSubject.asObservable();
     }
     );
-
   }
 
   addToCart(product: Product): Observable<any> {
